@@ -1,2 +1,5 @@
 .DS_Store
 .idea
+out/
+dependencies.javafx-sdk-20.0.2/
+dependencies/

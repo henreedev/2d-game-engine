@@ -1,60 +1,47 @@
 package engine;
 
-import engine.support.FXFrontEnd;
 import engine.support.Vec2d;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
-/**
- * This is your main Application class that you will contain your
- * 'draws' and 'ticks'. This class is also used for controlling
- * user input.
- */
-public class Application extends FXFrontEnd {
+public abstract class Screen {
+  protected Vec2d size;
+  protected Vec2d position; // for when the top-left corner is not the drawing origin
+  protected List<UIElement> uiElements;
+  protected boolean isActive;
+  protected Application parent;
 
-  protected List<Screen> screens;
-//  protected double aspectRatio;
-
-
-  public Application(String title) {
-    super(title);
-  }
-  public Application(String title, Vec2d windowSize, boolean debugMode, boolean fullscreen) {
-    super(title, windowSize, debugMode, fullscreen);
+  public Screen() {
+    this.uiElements = new ArrayList<>();
+    this.isActive = true;
   }
 
   /**
-   * Called periodically and used to update the state of your game.
-   * @param nanosSincePreviousTick	approximate number of nanoseconds since the previous call
+   * Screen's tick function.
+   * @param deltaTime seconds since the last tick
    */
-  @Override
-  protected void onTick(long nanosSincePreviousTick) {
-    for (Screen s : screens) {
-      // send screen deltaTime in seconds
-      s.onTick((double)(nanosSincePreviousTick / 1e9));
-    }
+  protected void onTick(double deltaTime) {
+
   }
 
   /**
    * Called after onTick().
    */
-  @Override
   protected void onLateTick() {
     // Don't worry about this method until you need it. (It'll be covered in class.)
   }
-
   /**
    *  Called periodically and meant to draw graphical components.
    * @param g		a {@link GraphicsContext} object used for drawing.
    */
-  @Override
   protected void onDraw(GraphicsContext g) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onDraw(g);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onDraw(g);
       }
     }
   }
@@ -63,11 +50,10 @@ public class Application extends FXFrontEnd {
    * Called when a key is typed.
    * @param e		an FX {@link KeyEvent} representing the input event.
    */
-  @Override
   protected void onKeyTyped(KeyEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onKeyTyped(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onKeyTyped(e);
       }
     }
   }
@@ -76,11 +62,10 @@ public class Application extends FXFrontEnd {
    * Called when a key is pressed.
    * @param e		an FX {@link KeyEvent} representing the input event.
    */
-  @Override
   protected void onKeyPressed(KeyEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onKeyPressed(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onKeyPressed(e);
       }
     }
   }
@@ -89,11 +74,10 @@ public class Application extends FXFrontEnd {
    * Called when a key is released.
    * @param e		an FX {@link KeyEvent} representing the input event.
    */
-  @Override
   protected void onKeyReleased(KeyEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onKeyReleased(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onKeyReleased(e);
       }
     }
   }
@@ -102,11 +86,10 @@ public class Application extends FXFrontEnd {
    * Called when the mouse is clicked.
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
-  @Override
   protected void onMouseClicked(MouseEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onMouseClicked(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onMouseClicked(e);
       }
     }
   }
@@ -115,11 +98,10 @@ public class Application extends FXFrontEnd {
    * Called when the mouse is pressed.
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
-  @Override
   protected void onMousePressed(MouseEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onMousePressed(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onMousePressed(e);
       }
     }
   }
@@ -128,11 +110,10 @@ public class Application extends FXFrontEnd {
    * Called when the mouse is released.
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
-  @Override
   protected void onMouseReleased(MouseEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onMouseReleased(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onMouseReleased(e);
       }
     }
   }
@@ -141,11 +122,10 @@ public class Application extends FXFrontEnd {
    * Called when the mouse is dragged.
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
-  @Override
   protected void onMouseDragged(MouseEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onMouseDragged(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onMouseDragged(e);
       }
     }
   }
@@ -154,11 +134,10 @@ public class Application extends FXFrontEnd {
    * Called when the mouse is moved.
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
-  @Override
   protected void onMouseMoved(MouseEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onMouseMoved(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onMouseMoved(e);
       }
     }
   }
@@ -167,11 +146,10 @@ public class Application extends FXFrontEnd {
    * Called when the mouse wheel is moved.
    * @param e		an FX {@link ScrollEvent} representing the input event.
    */
-  @Override
   protected void onMouseWheelMoved(ScrollEvent e) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onMouseWheelMoved(e);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onMouseWheelMoved(e);
       }
     }
   }
@@ -180,11 +158,10 @@ public class Application extends FXFrontEnd {
    * Called when the window's focus is changed.
    * @param newVal	a boolean representing the new focus state
    */
-  @Override
   protected void onFocusChanged(boolean newVal) {
-    for (Screen s : screens) {
-      if(s.isActive()) {
-        s.onFocusChanged(newVal);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onFocusChanged(newVal);
       }
     }
   }
@@ -193,38 +170,37 @@ public class Application extends FXFrontEnd {
    * Called when the window is resized.
    * @param newSize	the new size of the drawing area.
    */
-  @Override
   protected void onResize(Vec2d newSize) {
-    for (Screen s : screens) {
+    for (UIElement uie : uiElements) {
 //      if(s.isActive()) {
-      s.onResize(newSize);
+      uie.onResize(newSize);
 //      }
     }
   }
 
-  /**
-   * Called when the app is shutdown.
-   */
-  @Override
-  protected void onShutdown() {
+  // Getter for isActive
+  public boolean isActive() {
+    return isActive;
+  }
 
+  // Setter for isActive
+  public void setActive(boolean isActive) {
+    this.isActive = isActive;
+  }
+
+  public void setParent(Application parentApp) {
+    this.parent = parentApp;
   }
 
   /**
-   * Called when the app is starting up.
-   */
-  @Override
-  protected void onStartup() {
-
-  }
-
-  /**
-   * Sets the parent field for each of this application's Screens.
+   * Sets the parent field for each of this Screen's UIElements.
    */
   protected void setChildrenParent(){
-    for (Screen s : this.screens) {
-      s.setParent(this);
+    for (UIElement uie : this.uiElements) {
+      uie.setParent(this);
     }
   }
+
+
 
 }

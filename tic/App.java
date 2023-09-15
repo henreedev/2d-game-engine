@@ -3,6 +3,9 @@ package tic;
 import engine.Application;
 import engine.support.Vec2d;
 import java.util.ArrayList;
+import javafx.application.Platform;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 
 /**
@@ -14,15 +17,22 @@ public class App extends Application {
   public App(String title) {
     super(title);
     TicScreen ticScreen = new TicScreen();
-    this.screens = new ArrayList<>();
-    // Add UIElements to this screen here:
+    // Add screens to this Application here:
     screens.add(ticScreen);
-    // Link each UIElement to this screen:
-    setChildrenParent();
   }
 
   public App(String title, Vec2d windowSize, boolean debugMode, boolean fullscreen) {
     super(title, windowSize, debugMode, fullscreen);
+  }
+
+  @Override
+  protected void onKeyPressed(KeyEvent e) {
+    if (e.getCode() == KeyCode.ESCAPE) {
+      onShutdown();
+      Platform.exit();
+      System.exit(0);
+    }
+    super.onKeyPressed(e);
   }
 
 }

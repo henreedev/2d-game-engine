@@ -2,6 +2,7 @@ package engine;
 
 import engine.support.FXFrontEnd;
 import engine.support.Vec2d;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -16,14 +17,14 @@ import javafx.scene.input.ScrollEvent;
 public class Application extends FXFrontEnd {
 
   protected List<Screen> screens;
-//  protected double aspectRatio;
-
 
   public Application(String title) {
     super(title);
+    this.screens = new ArrayList<>();
   }
   public Application(String title, Vec2d windowSize, boolean debugMode, boolean fullscreen) {
     super(title, windowSize, debugMode, fullscreen);
+    this.screens = new ArrayList<>();
   }
 
   /**
@@ -207,7 +208,9 @@ public class Application extends FXFrontEnd {
    */
   @Override
   protected void onShutdown() {
-
+    for (Screen s : screens) {
+      s.onShutdown();
+    }
   }
 
   /**
@@ -215,16 +218,20 @@ public class Application extends FXFrontEnd {
    */
   @Override
   protected void onStartup() {
-
-  }
-
-  /**
-   * Sets the parent field for each of this application's Screens.
-   */
-  protected void setChildrenParent(){
-    for (Screen s : this.screens) {
-      s.setParent(this);
+    for (Screen s : screens) {
+      s.setParent(this); // Give each screen an object reference to this Application
+      s.onStartup();
     }
   }
+
+//  With the setParent line in place in onStartup(), this function isn't needed
+//  /**
+//   * Sets the parent field for each of this application's Screens.
+//   */
+//  protected void setChildrenParent(){
+//    for (Screen s : screens) {
+//      s.setParent(this);
+//    }
+//  }
 
 }

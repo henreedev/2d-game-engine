@@ -10,14 +10,17 @@ import javafx.scene.input.ScrollEvent;
 
 public abstract class Screen {
   protected Vec2d size;
-  protected Vec2d position; // for when the top-left corner is not the drawing origin
+  protected Vec2d position;
   protected List<UIElement> uiElements;
   protected boolean isActive;
   protected Application parent;
 
   public Screen() {
+    // initialize variables
     this.uiElements = new ArrayList<>();
-    this.isActive = true;
+    this.position = new Vec2d(0, 0);
+    this.size = new Vec2d(960, 540); // default value
+    this.setActivity(true);
   }
 
   /**
@@ -25,6 +28,19 @@ public abstract class Screen {
    * @param deltaTime seconds since the last tick
    */
   protected void onTick(double deltaTime) {
+    tick(deltaTime);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        uie.onTick(deltaTime);
+      }
+    }
+  }
+
+  /**
+   * Performs this Screen's tick actions.
+   * @param deltaTime seconds since the last tick
+   */
+  protected void tick(double deltaTime) {
 
   }
 
@@ -34,6 +50,7 @@ public abstract class Screen {
   protected void onLateTick() {
     // Don't worry about this method until you need it. (It'll be covered in class.)
   }
+
   /**
    *  Called periodically and meant to draw graphical components.
    * @param g		a {@link GraphicsContext} object used for drawing.
@@ -41,7 +58,9 @@ public abstract class Screen {
   protected void onDraw(GraphicsContext g) {
     for (UIElement uie : uiElements) {
       if(uie.isActive()){
+        g.save();
         uie.onDraw(g);
+        g.restore(); // ensure this UIE's drawing settings don't bleed over
       }
     }
   }
@@ -171,10 +190,48 @@ public abstract class Screen {
    * @param newSize	the new size of the drawing area.
    */
   protected void onResize(Vec2d newSize) {
+    resize(newSize); // resizes this Screen
+    reposition(newSize); // repositions this Screen
     for (UIElement uie : uiElements) {
 //      if(s.isActive()) {
-      uie.onResize(newSize);
+      uie.onResize(this.size); // send children this Screen's size so they are contained
 //      }
+    }
+  }
+
+  /**
+   * Called to actually resize this Screen.
+   * @param newSize the new size of the drawing area.
+   */
+  protected void resize(Vec2d newSize) {
+    this.size = newSize;
+  }
+
+  /**
+   * Called to reposition this Screen after a resize.
+   */
+  protected void reposition(Vec2d newSize) {
+    this.position = new Vec2d(0, 0);
+  }
+
+  /**
+   * Called when the app is shutdown.
+   */
+  protected void onShutdown() {
+    for (UIElement uie : uiElements) {
+      uie.onShutdown();
+    }
+  }
+
+  /**
+   * Called when the app is starting up.
+   */
+  protected void onStartup() {
+    for (UIElement uie : uiElements) {
+      // Set uie's parent Screen AND parent Application (for data flow)
+      uie.setParent(this);
+      uie.setParent(this.parent);
+      uie.onStartup();
     }
   }
 
@@ -184,7 +241,7 @@ public abstract class Screen {
   }
 
   // Setter for isActive
-  public void setActive(boolean isActive) {
+  public void setActivity(boolean isActive) {
     this.isActive = isActive;
   }
 
@@ -199,6 +256,14 @@ public abstract class Screen {
     for (UIElement uie : this.uiElements) {
       uie.setParent(this);
     }
+  }
+
+  public Vec2d getPosition() {
+    return this.position;
+  }
+
+  public Vec2d getSize() {
+    return this.size;
   }
 
 

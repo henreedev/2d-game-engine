@@ -2,36 +2,31 @@ package tic.assets;
 
 import engine.UIElement;
 import engine.support.Vec2d;
-import java.util.ArrayList;
+import engine.uitoolkit.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Board extends UIElement {
+public class Board extends Rectangle {
 
-  // Board drawing variables (update as needed in resize
-  private double height;  // Height of the board
-  private double x;        // X-coordinate of the board
+  // what % of the screen height to remove from the board's length
+  private final double offsetFactor = 0.05;
 
   public Board() {
-    super();
-    this.colors = new ArrayList<>();
-    this.colors.add(Color.BLACK);
-    this.isActive = true;
+    super(Color.BLACK, true, 10.0);
+    for(int i = 0; i < 9; i++) {
+      this.uiElements.add(new BoardSlot(i));
+    }
   }
 
   @Override
-  public void onDraw(GraphicsContext g){
-    g.setFill(colors.get(0));  // Set the fill color
-    // Y-coordinate of the board
-    double y = 0;
-    g.fillRect(x, y, height, height);           // Draw the filled rectangle
+  protected void resize(Vec2d newSize) {
+    double length = newSize.y - newSize.y * offsetFactor;
+    this.size = new Vec2d(length, length);
   }
 
   @Override
-  protected void onResize(Vec2d newSize) {
-    // Center board in screen, taking as much vertical area as possible:
-    this.height = newSize.y;
-    this.x = (newSize.x - newSize.y) / 2; // only works if aspect ratio > 1!
+  protected void reposition(Vec2d newSize) {
+    this.position = new Vec2d((newSize.x - newSize.y) / 2, newSize.y * offsetFactor / 2);
   }
 
 

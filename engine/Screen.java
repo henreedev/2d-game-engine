@@ -51,18 +51,41 @@ public abstract class Screen {
     // Don't worry about this method until you need it. (It'll be covered in class.)
   }
 
+
   /**
    *  Called periodically and meant to draw graphical components.
+   *  This function begins the pass-down of absolute positioning.
    * @param g		a {@link GraphicsContext} object used for drawing.
    */
   protected void onDraw(GraphicsContext g) {
     for (UIElement uie : uiElements) {
       if(uie.isActive()){
         g.save();
-        uie.onDraw(g);
+        uie.onDraw(g, this.position); // passes down position
         g.restore(); // ensure this UIE's drawing settings don't bleed over
       }
     }
+  }
+
+  protected void onDraw(GraphicsContext g, Vec2d parentPosition) {
+    draw(g, parentPosition);
+    for (UIElement uie : uiElements) {
+      if(uie.isActive()){
+        g.save();
+        System.out.println("Telling " + uie.toString() + " to draw from parent " + this.toString());
+        uie.onDraw(g, this.position.plus(parentPosition));
+        g.restore(); // ensure this UIE's drawing settings don't bleed over
+      }
+    }
+  }
+
+  /**
+   * Actually draws this screen.
+   * @param g the GraphicsContext to draw with
+   * @param parentPosition the absolute position to draw relative to
+   */
+  protected void draw(GraphicsContext g, Vec2d parentPosition) {
+
   }
 
   /**

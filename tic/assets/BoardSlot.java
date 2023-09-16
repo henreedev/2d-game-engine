@@ -17,7 +17,8 @@ public class BoardSlot extends Button {
   public BoardSlot (int slotIndex) {
     super(new BoardSlotBehavior(slotIndex));
     this.slotIndex = slotIndex; // maybe not necessary
-    this.uiElements.add(new Rectangle(Color.DARKBLUE, true, 15));
+    this.uiElements.add(new Rectangle(Color.rgb(30, 30, 30), true, 15));
+    this.uiElements.add(new X(Color.rgb(100, 100, 255)));
   }
 
   @Override
@@ -35,6 +36,6 @@ public class BoardSlot extends Button {
     double x = (slotIndex % 3) * (slotLength + dividerLength) + extraSpaceLength / 2;
     double y = (slotIndex / 3) * (slotLength + dividerLength) + extraSpaceLength / 2;
 
-    this.position = new Vec2d(x, y).plus(this.parentScreen.getPosition());
+    this.position = new Vec2d(x, y);
   }
 }

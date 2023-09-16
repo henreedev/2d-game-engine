@@ -1,7 +1,6 @@
 package tic;
 
 import engine.Screen;
-import java.util.ArrayList;
 import java.util.Arrays;
 import tic.assets.Background;
 import tic.assets.Board;

@@ -20,8 +20,4 @@ public abstract class UIElement extends Screen {
     this.parentScreen = parentScreen;
   }
 
-  protected Vec2d getActualPos() {
-    return this.position.plus(parentScreen.getPosition());
-  }
-
 }

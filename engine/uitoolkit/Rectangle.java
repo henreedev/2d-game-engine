@@ -29,15 +29,14 @@ public class Rectangle extends UIElement {
   }
 
   @Override
-  protected void onDraw(GraphicsContext g){
-    Vec2d pos = getActualPos();
+  protected void draw(GraphicsContext g, Vec2d parentPosition) {
+    Vec2d pos = this.position.plus(parentPosition);
     double roundHoz = roundingPercent / 100.0 * size.x;
     double roundVert = roundingPercent / 100.0 * size.y;
 
     if (isFilled && !isRounded) { // filled and unrounded
       g.setFill(this.color);
       g.fillRect(pos.x, pos.y, size.x, size.y);
-
     } else if (isFilled) { // filled and rounded
       g.setFill(this.color);
       g.fillRoundRect(pos.x, pos.y, size.x, size.y, roundHoz, roundVert);
@@ -46,8 +45,5 @@ public class Rectangle extends UIElement {
     } else { // unfilled and unrounded
       g.strokeRect(pos.x, pos.y, size.x, size.y);
     }
-    // Tell children to draw
-    super.onDraw(g);
   }
-
 }

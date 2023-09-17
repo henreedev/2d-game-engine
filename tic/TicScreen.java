@@ -101,12 +101,6 @@ public class TicScreen extends Screen {
     whoseTurn = "X";
     whoWon = "";
     Arrays.fill(board, "");
-  }
-
-  @Override
-  protected void tick(double deltaTime) {
-    if (shouldStartGame) {
-      this.parent.swapScreens();
-    }
+    Timer.resetTimeVal();
   }
 }

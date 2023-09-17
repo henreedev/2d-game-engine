@@ -16,6 +16,9 @@ public class Text extends UIElement {
   protected double wrapDistance;
   protected String fontString;
   protected double fontSize;
+  protected double xScalar = 0.5;
+  protected double yScalar = 0.5;
+  protected double sizeScalar = 1.5;
   protected TextAlignment textAlignment = TextAlignment.LEFT;
 
   public Text(String text) {
@@ -75,12 +78,23 @@ public class Text extends UIElement {
 
   @Override
   protected void resize(Vec2d newSize) {
-
+    this.size = new Vec2d(newSize.x, newSize.y);
+    this.fontSize = this.size.x * sizeScalar / this.text.length();
   }
 
+  public Text setSizeScalar(double sizeScalar) {
+    this.sizeScalar = sizeScalar;
+    return this;
+  }
+
+  public Text setPositionScalars(double x, double y) {
+    this.xScalar = x;
+    this.yScalar = y;
+    return this;
+  }
   @Override
   protected void reposition(Vec2d newSize) {
-    this.position = new Vec2d(newSize.x / 2, newSize.y / 2);
+    this.position = new Vec2d(newSize.x * xScalar, newSize.y * yScalar);
   }
 
 

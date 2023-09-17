@@ -9,8 +9,7 @@ public class StartButtonBehavior implements ButtonBehavior {
 
   @Override
   public void doOnClick(MouseEvent e) {
-    TicScreen.resetGameData();
-
+    MenuScreen.shouldStartGame = true;
   }
 
   @Override

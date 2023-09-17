@@ -26,12 +26,13 @@ public class App extends Application {
     screens.add(ticScreen);
     screens.add(menuScreen);
     // start with menu displayed
-    menuScreen.setActivity(false);
+    ticScreen.setActivity(false);
   }
 
   public App(String title, Vec2d windowSize, boolean debugMode, boolean fullscreen) {
     super(title, windowSize, debugMode, fullscreen);
   }
+
 
   @Override
   public void swapScreens() {
@@ -45,10 +46,7 @@ public class App extends Application {
       onShutdown();
       Platform.exit();
       System.exit(0);
-    } else {
-
-//    } else if (e.getCharacter().charAt(0) == 'r' || e.getCharacter().charAt(0) == 'R') {
-      System.out.println("swapping");
+    } else if (e.getCode() == KeyCode.R) {
       swapScreens();
     }
     super.onKeyPressed(e);

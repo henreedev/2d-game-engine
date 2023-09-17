@@ -20,6 +20,10 @@ public abstract class UIElement extends Screen {
     this.color = color;
   }
 
+  public void setColor(Color color) {
+    this.color = color;
+  }
+
   public void setParent(Screen parentScreen) {
     this.parentScreen = parentScreen;
   }

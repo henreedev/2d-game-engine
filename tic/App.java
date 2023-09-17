@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import tic.assets.MenuScreen;
 
 
 /**
@@ -14,15 +15,28 @@ import javafx.scene.input.KeyEvent;
  */
 public class App extends Application {
 
+  private TicScreen ticScreen;
+  private MenuScreen menuScreen;
+
   public App(String title) {
     super(title);
-    TicScreen ticScreen = new TicScreen();
+    ticScreen = new TicScreen();
+    menuScreen = new MenuScreen();
     // Add screens to this Application here:
     screens.add(ticScreen);
+    screens.add(menuScreen);
+    // start with menu displayed
+    menuScreen.setActivity(false);
   }
 
   public App(String title, Vec2d windowSize, boolean debugMode, boolean fullscreen) {
     super(title, windowSize, debugMode, fullscreen);
+  }
+
+  @Override
+  public void swapScreens() {
+    ticScreen.setActivity(!ticScreen.isActive());
+    menuScreen.setActivity(!menuScreen.isActive());
   }
 
   @Override
@@ -31,6 +45,11 @@ public class App extends Application {
       onShutdown();
       Platform.exit();
       System.exit(0);
+    } else {
+
+//    } else if (e.getCharacter().charAt(0) == 'r' || e.getCharacter().charAt(0) == 'R') {
+      System.out.println("swapping");
+      swapScreens();
     }
     super.onKeyPressed(e);
   }

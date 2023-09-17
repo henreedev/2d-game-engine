@@ -4,13 +4,16 @@ import engine.Screen;
 import java.util.Arrays;
 import tic.assets.Background;
 import tic.assets.Board;
+import tic.assets.Timer;
 
 public class TicScreen extends Screen {
 
   // Game state variables
+  public static String statusMessage = "";
   public static String whoseTurn = "X"; // either "X" or "O"
   public static String whoWon = ""; // "", "X", or "O"
   public static String[] board = new String[9];
+  public static boolean shouldStartGame = false;
   static {
     Arrays.fill(board, "");
   }
@@ -39,6 +42,7 @@ public class TicScreen extends Screen {
     } else {
       whoseTurn = "X";
     }
+    Timer.resetTimeVal();
   }
 
   public static boolean checkForWin() {
@@ -68,16 +72,41 @@ public class TicScreen extends Screen {
     return false;
   }
 
-  private static void winSequence() {
-    // put code for when someone wins here
+  public static boolean checkForDraw() {
+    boolean spaceAvailable = false;
+    for (String s : board) {
+      if (s.equals("")) {
+        spaceAvailable = true;
+        break;
+      }
+    }
+    if (!spaceAvailable && whoWon.equals("")) {
+      whoWon = "Nobody";
+      System.out.println("It's a draw!");
+      return true;
+    }
+    return false;
   }
 
-  private static void resetGameData() {
+  public static void winSequence() {
+    switch (whoWon) {
+      case "X" -> statusMessage = "X won the game!";
+      case "O" -> statusMessage = "O won the game!";
+      case "Nobody" -> statusMessage = "It's a draw!";
+      default -> statusMessage = "ERROR";
+    }
+  }
 
+   public static void resetGameData() {
+    whoseTurn = "X";
+    whoWon = "";
+    Arrays.fill(board, "");
   }
 
   @Override
   protected void tick(double deltaTime) {
-//    System.out.println(Arrays.toString(board));
+    if (shouldStartGame) {
+      this.parent.swapScreens();
+    }
   }
 }

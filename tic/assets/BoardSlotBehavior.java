@@ -23,7 +23,7 @@ public class BoardSlotBehavior implements ButtonBehavior {
       if (!board[slotIndex].equals("X") || board[slotIndex].equals("O")) {
         board[slotIndex] = turn;
       }
-      if(!TicScreen.checkForWin()) {
+      if(!TicScreen.checkForWin() && !TicScreen.checkForDraw()) {
         TicScreen.swapTurn();
       }
     }

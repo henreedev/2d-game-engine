@@ -27,6 +27,8 @@ public class Application extends FXFrontEnd {
     this.screens = new ArrayList<>();
   }
 
+  public void swapScreens() {}
+
   /**
    * Called periodically and used to update the state of your game.
    * @param nanosSincePreviousTick	approximate number of nanoseconds since the previous call
@@ -35,7 +37,9 @@ public class Application extends FXFrontEnd {
   protected void onTick(long nanosSincePreviousTick) {
     for (Screen s : screens) {
       // send screen deltaTime in seconds
-      s.onTick((double)(nanosSincePreviousTick / 1e9));
+      if(s.isActive()) {
+        s.onTick((double)(nanosSincePreviousTick / 1e9));
+      }
     }
   }
 

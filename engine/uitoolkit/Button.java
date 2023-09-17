@@ -1,10 +1,12 @@
 package engine.uitoolkit;
 
 import engine.UIElement;
+import engine.support.Vec2d;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 
 public class Button extends UIElement {
-
+  private Vec2d absPos = new Vec2d(0, 0); // initialization only
   private final ButtonBehavior behavior;
 
   public Button(ButtonBehavior behavior) {
@@ -26,11 +28,16 @@ public class Button extends UIElement {
     }
   }
 
+  @Override
+  protected void draw(GraphicsContext g, Vec2d parentPosition) {
+    this.absPos = this.position.plus(parentPosition);
+  }
+
   private boolean isWithinBounds(MouseEvent e) {
-    double leftBound = this.position.x;
-    double upperBound = this.position.y;
-    double rightBound = this.position.x + this.size.x;
-    double lowerBound = this.position.y + this.size.y;
+    double leftBound = this.absPos.x;
+    double upperBound = this.absPos.y;
+    double rightBound = this.absPos.x + this.size.x;
+    double lowerBound = this.absPos.y + this.size.y;
 
     double x = e.getX();
     double y = e.getY();

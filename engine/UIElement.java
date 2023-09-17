@@ -15,6 +15,10 @@ public abstract class UIElement extends Screen {
     super();
     this.color = Color.BLACK; // default color
   }
+  public UIElement(Color color) {
+    super();
+    this.color = color;
+  }
 
   public void setParent(Screen parentScreen) {
     this.parentScreen = parentScreen;

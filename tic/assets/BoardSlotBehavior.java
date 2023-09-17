@@ -1,5 +1,7 @@
 package tic.assets;
 
+import static tic.TicScreen.whoWon;
+
 import engine.uitoolkit.ButtonBehavior;
 import javafx.scene.input.MouseEvent;
 import tic.TicScreen;
@@ -14,14 +16,16 @@ public class BoardSlotBehavior implements ButtonBehavior {
 
   @Override
   public void doOnClick(MouseEvent e) {
-    String turn = TicScreen.whoseTurn;
-    String[] board = TicScreen.board;
-    // if unfilled / only ghost, place X or O
-    if (!board[slotIndex].equals("X") || board[slotIndex].equals("O")) {
-      board[slotIndex] = turn;
-    }
-    if(!TicScreen.checkForWin()) {
-      TicScreen.swapTurn();
+    if(whoWon.equals("")) {
+      String turn = TicScreen.whoseTurn;
+      String[] board = TicScreen.board;
+      // if unfilled / only ghost, place X or O
+      if (!board[slotIndex].equals("X") || board[slotIndex].equals("O")) {
+        board[slotIndex] = turn;
+      }
+      if(!TicScreen.checkForWin()) {
+        TicScreen.swapTurn();
+      }
     }
 
   }

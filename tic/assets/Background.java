@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 public class Background extends Rectangle {
 
   public Background() {
-    super(Color.DEEPSKYBLUE, true);
+    super(Color.rgb(115, 0, 115), true);
   }
 
 }

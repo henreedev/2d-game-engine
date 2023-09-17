@@ -50,6 +50,7 @@ public class TicScreen extends Screen {
       if (board[index0].equals("X")
           && board[index1].equals("X")
           && board[index2].equals("X")) {
+        System.out.println("X Winning triple: "+index0 +"," + index1 + ',' + index2);
         // X got 3 in a row
         whoWon = "X";
         winSequence();
@@ -57,6 +58,7 @@ public class TicScreen extends Screen {
       } else if (board[index0].equals("O")
           && board[index1].equals("O")
           && board[index2].equals("O")) {
+        System.out.println("O Winning triple: "+index0 +"," + index1 + ',' + index2);
         // O got 3 in a row
         whoWon = "O";
         winSequence();

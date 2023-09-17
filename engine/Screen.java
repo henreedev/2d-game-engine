@@ -72,7 +72,6 @@ public abstract class Screen {
     for (UIElement uie : uiElements) {
       if(uie.isActive()){
         g.save();
-        System.out.println("Telling " + uie.toString() + " to draw from parent " + this.toString());
         uie.onDraw(g, this.position.plus(parentPosition));
         g.restore(); // ensure this UIE's drawing settings don't bleed over
       }

@@ -1,1 +1,10 @@
-Tell us how to play your game in this file.
+To play my Tic-Tac-Toe game, follow the following steps:
+
+1. Run the game through tic/Main.java
+2. Click the "Start New Game" button to start a new game of Tic-Tac-Toe
+3. On X's turn, click on an empty board slot to place an X.
+   On O's turn, click on an empty board slot to place an O.
+4. Repeat step 3 to play Tic-Tac-Toe.
+5. At any point in step 4, press 'r' to open the menu screen, pausing the game. You can start a new game from here with the button.
+6. After the game is complete, press 'r' and click the button to start a new game.
+7. Resize the window if desired!

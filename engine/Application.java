@@ -38,7 +38,7 @@ public class Application extends FXFrontEnd {
     for (Screen s : screens) {
       // send screen deltaTime in seconds
       if(s.isActive()) {
-        s.onTick((double)(nanosSincePreviousTick / 1e9));
+        s.onTick((nanosSincePreviousTick / 1e9));
       }
     }
   }
@@ -201,9 +201,7 @@ public class Application extends FXFrontEnd {
   @Override
   protected void onResize(Vec2d newSize) {
     for (Screen s : screens) {
-//      if(s.isActive()) {
       s.onResize(newSize);
-//      }
     }
   }
 
@@ -227,15 +225,5 @@ public class Application extends FXFrontEnd {
       s.onStartup();
     }
   }
-
-//  With the setParent line in place in onStartup(), this function isn't needed
-//  /**
-//   * Sets the parent field for each of this application's Screens.
-//   */
-//  protected void setChildrenParent(){
-//    for (Screen s : screens) {
-//      s.setParent(this);
-//    }
-//  }
 
 }

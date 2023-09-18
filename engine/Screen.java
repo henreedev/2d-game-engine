@@ -215,9 +215,7 @@ public abstract class Screen {
     resize(newSize); // resizes this Screen
     reposition(newSize); // repositions this Screen
     for (UIElement uie : uiElements) {
-//      if(s.isActive()) {
       uie.onResize(this.size); // send children this Screen's size so they are contained
-//      }
     }
   }
 

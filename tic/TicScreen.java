@@ -57,7 +57,7 @@ public class TicScreen extends Screen {
         System.out.println("X Winning triple: "+index0 +"," + index1 + ',' + index2);
         // X got 3 in a row
         whoWon = "X";
-        winSequence();
+        gameEndSequence();
         return true;
       } else if (board[index0].equals("O")
           && board[index1].equals("O")
@@ -65,7 +65,7 @@ public class TicScreen extends Screen {
         System.out.println("O Winning triple: "+index0 +"," + index1 + ',' + index2);
         // O got 3 in a row
         whoWon = "O";
-        winSequence();
+        gameEndSequence();
         return true;
       }
     }
@@ -83,12 +83,13 @@ public class TicScreen extends Screen {
     if (!spaceAvailable && whoWon.equals("")) {
       whoWon = "Nobody";
       System.out.println("It's a draw!");
+      gameEndSequence();
       return true;
     }
     return false;
   }
 
-  public static void winSequence() {
+  public static void gameEndSequence() {
     switch (whoWon) {
       case "X" -> statusMessage = "X won the game!";
       case "O" -> statusMessage = "O won the game!";
@@ -100,6 +101,7 @@ public class TicScreen extends Screen {
    public static void resetGameData() {
     whoseTurn = "X";
     whoWon = "";
+    statusMessage = "";
     Arrays.fill(board, "");
     Timer.resetTimeVal();
   }

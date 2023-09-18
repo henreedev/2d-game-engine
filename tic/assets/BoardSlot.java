@@ -9,9 +9,7 @@ public class BoardSlot extends Button {
 
   protected int slotIndex;
   // percent of the board length allocated to board slots
-  protected static double slotPercent = 0.85; // allows for 2 5% slices
-  // along the top of the board we'll have:
-  // 30% slot 5% line/divider 30% slot 5% line/divider 30% slot
+  protected static double slotPercent = 0.85;
   protected static double extraSpacePercent = 0.075;
 
   private final X x;

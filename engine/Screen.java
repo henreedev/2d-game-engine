@@ -14,6 +14,8 @@ public abstract class Screen {
   protected List<UIElement> uiElements;
   protected boolean isActive;
   protected Application parent;
+  protected Viewport viewport;
+  protected List<GameWorld> gameWorlds;
 
   public Screen() {
     // initialize variables

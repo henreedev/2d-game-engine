@@ -3,7 +3,7 @@ package engine;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 
-public class System {
+public class GameSystem {
 
   private List<GameObject> gameObjects;
 

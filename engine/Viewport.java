@@ -1,27 +1,66 @@
 package engine;
 
-import engine.GameWorld;
-import engine.UIElement;
+import engine.support.Vec2d;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Affine;
 
 public class Viewport extends UIElement {
-  protected List<Affine> affines;
-  protected Affine testAffine;
+  protected List<Affine> transforms;
   protected List<GameWorld> gameWorlds;
+  protected List<Double> scaleFactors;
+  protected List<Vec2d> translations;
   protected int activeGameWorld = 0;
+  protected double zoomFactor = 1.1; // multiply or divide by this on each mouse scroll
+
+  public Viewport() {
+    this.transforms = new ArrayList<>();
+    this.gameWorlds = new ArrayList<>();
+    this.scaleFactors = new ArrayList<>();
+    this.translations = new ArrayList<>();
+  }
 
   public void addGameWorld(GameWorld gameWorld) {
     this.gameWorlds.add(gameWorld);
-    Affine transform = new Affine();
-    this.affines.add(transform);
+    this.scaleFactors.add(1.0);
+    this.translations.add(new Vec2d(0.0, 0.0));
+    this.transforms.add(generateAffine());
   }
 
   @Override
   protected void onDraw(GraphicsContext g) {
-    g.setTransform(affines.get(activeGameWorld));
+    g.setTransform(transforms.get(activeGameWorld));
     GameWorld gw = gameWorlds.get(activeGameWorld);
     gw.onDraw(g);
+  }
+
+  private Affine generateAffine() {
+    Affine transform = new Affine();
+    double currentScale = this.scaleFactors.get(activeGameWorld);
+    Vec2d currentTranslation = this.translations.get(activeGameWorld);
+    transform.appendScale(currentScale, currentScale);
+    transform.appendTranslation(currentTranslation.x, currentTranslation.y);
+    return transform;
+  }
+
+  private void updateAffine() {
+    this.transforms.set(activeGameWorld, generateAffine());
+  }
+
+  private void onZoom(boolean isUpScroll) {
+    if (isUpScroll) {
+      this.scaleFactors.set(activeGameWorld, this.scaleFactors.get(activeGameWorld) * zoomFactor);
+    } else {
+      this.scaleFactors.set(activeGameWorld, this.scaleFactors.get(activeGameWorld) / zoomFactor);
+    }
+    updateAffine();
+  }
+
+  @Override
+  protected void onMouseWheelMoved(ScrollEvent e) {
+    onZoom(e.getDeltaY() > 0);
+    super.onMouseWheelMoved(e);
   }
 }

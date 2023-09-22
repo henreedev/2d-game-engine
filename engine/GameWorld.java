@@ -1,6 +1,5 @@
 package engine;
 
-import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 
 public class GameWorld {
@@ -12,8 +11,8 @@ public class GameWorld {
    *  their respective System.
    * a public input map from string ("w", "W", "esc", etc.) to boolean (currently input or not).
    */
-  System graphicsSystem;
-  System timerSystem;
+  GameSystem graphicsSystem;
+  GameSystem timerSystem;
 
   protected void onDraw(GraphicsContext g) {
     if (graphicsSystem != null) {

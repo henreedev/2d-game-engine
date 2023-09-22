@@ -14,15 +14,21 @@ public abstract class Screen {
   protected List<UIElement> uiElements;
   protected boolean isActive;
   protected Application parent;
-  protected Viewport viewport;
   protected List<GameWorld> gameWorlds;
+  protected Viewport viewport;
 
   public Screen() {
     // initialize variables
     this.uiElements = new ArrayList<>();
+    this.gameWorlds = new ArrayList<>();
     this.position = new Vec2d(0, 0);
     this.size = new Vec2d(960, 540); // default value
     this.setActivity(true);
+  }
+
+  protected void addGameWorld(GameWorld gameWorld) {
+    this.gameWorlds.add(gameWorld);
+    this.viewport.addGameWorld(gameWorld);
   }
 
   /**
@@ -30,6 +36,11 @@ public abstract class Screen {
    * @param deltaTime seconds since the last tick
    */
   protected void onTick(double deltaTime) {
+    if (!this.gameWorlds.isEmpty()) {
+      for (GameWorld gw : this.gameWorlds) {
+        gw.onTick(deltaTime);
+      }
+    }
     tick(deltaTime);
     for (UIElement uie : uiElements) {
       if(uie.isActive()){

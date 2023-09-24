@@ -46,11 +46,11 @@ public abstract class Screen {
   }
 
   protected void onDraw(GraphicsContext g) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onDraw(g);
-      }
-    }
+//    if (!this.gameWorlds.isEmpty()) {
+//      for (GameWorld gw : this.gameWorlds) {
+//        gw.onDraw(g);
+//      }
+//    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         g.save();

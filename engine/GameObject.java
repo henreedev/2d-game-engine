@@ -13,6 +13,7 @@ public class GameObject {
 
    public GameObject() {
      this.componentMap = new HashMap<>();
+     addComponent(new TransformComponent(this));
    }
 
    public GameObject addComponent(Component c) {

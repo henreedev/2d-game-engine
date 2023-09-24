@@ -1,6 +1,7 @@
 package engine;
 
 import engine.components.ComponentTag;
+import engine.support.Vec2d;
 import java.util.Set;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -19,6 +20,7 @@ public class GameWorld {
   protected GameSystem graphicsSystem;
   protected GameSystem tickSystem;
   protected GameSystem inputSystem;
+  protected Vec2d gameDimensions;
 
   public void addGameObject(GameObject gObj) {
     Set<ComponentTag> componentTags = gObj.getComponentTags();

@@ -10,7 +10,7 @@ public abstract class Behavior {
     this.parent = parent;
   }
 
-  private TransformComponent getParentTransform() {
+  protected TransformComponent getParentTransform() {
     return this.parent.getTransform();
   }
 }

@@ -13,9 +13,10 @@ public class Viewport extends UIElement {
   protected List<Double> scaleFactors;
   protected List<Vec2d> translations;
   protected int activeGameWorld = 0;
-  protected double zoomFactor = 1.1; // multiply or divide by this on each mouse scroll
+  protected double zoomFactor = 1.01; // multiply or divide by this on each mouse scroll
 
   public Viewport() {
+    super();
     this.transforms = new ArrayList<>();
     this.gameWorlds = new ArrayList<>();
     this.scaleFactors = new ArrayList<>();
@@ -34,6 +35,12 @@ public class Viewport extends UIElement {
     g.setTransform(transforms.get(activeGameWorld));
     GameWorld gw = gameWorlds.get(activeGameWorld);
     gw.onDraw(g);
+    System.out.println(g.getTransform());
+  }
+
+  @Override
+  protected void onDraw(GraphicsContext g, Vec2d parentPosition) {
+    onDraw(g);
   }
 
   private Affine generateAffine() {
@@ -60,7 +67,13 @@ public class Viewport extends UIElement {
 
   @Override
   protected void onMouseWheelMoved(ScrollEvent e) {
+    System.out.println(this.scaleFactors.get(activeGameWorld));
     onZoom(e.getDeltaY() > 0);
     super.onMouseWheelMoved(e);
+  }
+
+  @Override
+  protected void onResize(Vec2d newSize) {
+
   }
 }

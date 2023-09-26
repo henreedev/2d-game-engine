@@ -2,6 +2,7 @@ package alc;
 
 import engine.GameWorld;
 import engine.Screen;
+import engine.SpaceConverter;
 import engine.Viewport;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -9,9 +10,10 @@ public class AlcScreen extends Screen {
 
   public AlcScreen() {
     super();
-    this.viewport = new Viewport();
-    this.uiElements.add(this.viewport); // to receive calls like other UIElements
-    this.addGameWorld(new AlcWorld());
+    SpaceConverter converter = new SpaceConverter();
+    Viewport viewport = new Viewport(converter);
+    viewport.addGameWorld(new AlcWorld(converter));
+    this.uiElements.add(viewport); // to receive calls like other UIElements
   }
 
   @Override

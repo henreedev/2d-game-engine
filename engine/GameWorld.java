@@ -21,6 +21,11 @@ public class GameWorld {
   protected GameSystem tickSystem;
   protected GameSystem inputSystem;
   protected Vec2d gameDimensions;
+  public SpaceConverter converter;
+
+  public GameWorld(SpaceConverter converter) {
+    this.converter = converter;
+  }
 
   public void addGameObject(GameObject gObj) {
     Set<ComponentTag> componentTags = gObj.getComponentTags();
@@ -33,6 +38,7 @@ public class GameWorld {
     if (componentTags.contains(ComponentTag.INPUT)) {
       this.inputSystem.addGameObject(gObj);
     }
+    gObj.parent = this;
   }
 
   protected void onDraw(GraphicsContext g) {

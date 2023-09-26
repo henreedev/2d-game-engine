@@ -16,5 +16,8 @@ public class TickComponent extends Component {
     this.tickBehavior.onTick(deltaTime);
   }
 
-
+  @Override
+  public ComponentTag getTag() {
+    return ComponentTag.TICK;
+  }
 }

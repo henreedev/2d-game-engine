@@ -18,8 +18,6 @@ public abstract class Component {
     this.isActive = isActive;
   }
 
-  public ComponentTag getTag() {
-    return ComponentTag.NONE;
-  }
+  public abstract ComponentTag getTag();
 
 }

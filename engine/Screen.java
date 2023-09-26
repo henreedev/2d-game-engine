@@ -14,29 +14,16 @@ public abstract class Screen {
   protected List<UIElement> uiElements;
   protected boolean isActive;
   protected Application parent;
-  protected List<GameWorld> gameWorlds;
-  protected Viewport viewport;
 
   public Screen() {
     // initialize variables
     this.uiElements = new ArrayList<>();
-    this.gameWorlds = new ArrayList<>();
     this.position = new Vec2d(0, 0);
     this.size = new Vec2d(960, 540); // default value
     this.setActivity(true);
   }
 
-  protected void addGameWorld(GameWorld gameWorld) {
-    this.gameWorlds.add(gameWorld);
-    this.viewport.addGameWorld(gameWorld);
-  }
-
   protected void onTick(double deltaTime) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onTick(deltaTime);
-      }
-    }
     tick(deltaTime);
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
@@ -46,11 +33,6 @@ public abstract class Screen {
   }
 
   protected void onDraw(GraphicsContext g) {
-//    if (!this.gameWorlds.isEmpty()) {
-//      for (GameWorld gw : this.gameWorlds) {
-//        gw.onDraw(g);
-//      }
-//    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         g.save();
@@ -61,11 +43,6 @@ public abstract class Screen {
   }
 
   protected void onKeyTyped(KeyEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onKeyTyped(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onKeyTyped(e);
@@ -74,11 +51,6 @@ public abstract class Screen {
   }
 
   protected void onKeyPressed(KeyEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onKeyPressed(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onKeyPressed(e);
@@ -87,11 +59,6 @@ public abstract class Screen {
   }
 
   protected void onKeyReleased(KeyEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onKeyReleased(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onKeyReleased(e);
@@ -100,11 +67,6 @@ public abstract class Screen {
   }
 
   protected void onMouseClicked(MouseEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onMouseClicked(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onMouseClicked(e);
@@ -113,11 +75,6 @@ public abstract class Screen {
   }
 
   protected void onMousePressed(MouseEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onMousePressed(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onMousePressed(e);
@@ -126,11 +83,6 @@ public abstract class Screen {
   }
 
   protected void onMouseReleased(MouseEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onMouseReleased(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onMouseReleased(e);
@@ -139,11 +91,6 @@ public abstract class Screen {
   }
 
   protected void onMouseDragged(MouseEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onMouseDragged(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onMouseDragged(e);
@@ -152,11 +99,6 @@ public abstract class Screen {
   }
 
   protected void onMouseMoved(MouseEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onMouseMoved(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onMouseMoved(e);
@@ -165,11 +107,6 @@ public abstract class Screen {
   }
 
   protected void onMouseWheelMoved(ScrollEvent e) {
-    if (!this.gameWorlds.isEmpty()) {
-      for (GameWorld gw : this.gameWorlds) {
-        gw.onMouseWheelMoved(e);
-      }
-    }
     for (UIElement uie : uiElements) {
       if (uie.isActive()) {
         uie.onMouseWheelMoved(e);

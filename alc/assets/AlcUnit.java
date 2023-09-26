@@ -9,6 +9,7 @@ import engine.components.behaviors.DrawBehavior;
 import engine.components.behaviors.DrawLayer;
 import engine.components.behaviors.InputBehavior;
 import engine.support.Vec2d;
+import java.util.Random;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +21,7 @@ public class AlcUnit extends GameObject {
   private InputBehavior inputBehavior;
   private boolean isDragged;
   private boolean isClone;
+  protected Color color = Color.rgb(75, 50, 255);
 
   public AlcUnit() {
     super();
@@ -34,7 +36,7 @@ public class AlcUnit extends GameObject {
         Vec2d pos = tc.getPosition();
         Vec2d size = tc.getSize();
 //        g.setLineWidth(1);
-        g.setStroke(Color.rgb(75, 50, 255));
+        g.setStroke(color);
         g.strokeRect(pos.x, pos.y, size.x, size.y);
       }
     };
@@ -63,7 +65,14 @@ public class AlcUnit extends GameObject {
       }
       @Override
       public void onMouseClicked(MouseEvent e) {
-
+        if (isWithinTransform(e)) {
+          Random rand = new Random();
+          color = Color.rgb(
+              rand.nextInt(256),
+              rand.nextInt(256),
+              rand.nextInt(256)
+          );
+        }
       }
       // UNUSED METHODS ^^^
 
@@ -80,12 +89,10 @@ public class AlcUnit extends GameObject {
           isClone = true;
           // TODO store offset from top left (so that dragging occurs from the initially clicked point)
         }
-        System.out.println("Pressing" +isDragged);
       }
 
       @Override
       public void onMouseReleased(MouseEvent e) {
-        System.out.println("Releasing" +isDragged);
         isDragged = false;
       }
 

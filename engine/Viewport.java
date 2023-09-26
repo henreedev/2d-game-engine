@@ -46,7 +46,6 @@ public class Viewport extends UIElement {
   protected void onDraw(GraphicsContext g) {
     // apply game affine and draw game
     g.setTransform(transform);
-//    System.out.println(transform);
     gameWorld.onDraw(g);
   }
 
@@ -145,7 +144,7 @@ public class Viewport extends UIElement {
 
   private Affine generateAffine() {
     Affine transform = new Affine();
-    transform.appendTranslation(-translation.x, -translation.y); // minus game upperleft
+    transform.appendTranslation(-translation.x * scaleFactor, -translation.y * scaleFactor); // minus game upperleft
     transform.appendScale(scaleFactor, scaleFactor); // times scale
     return transform;
   }
@@ -171,7 +170,7 @@ public class Viewport extends UIElement {
     updateScale();
 
     double scaleDifference = scaleFactor - oldScale;
-    translate(new Vec2d((scaleDifference * gameWorldDims.x / 2), (scaleDifference * gameWorldDims.y / 2)));
+    translate(new Vec2d((scaleDifference * gameWorldDims.x / 4), (scaleDifference * gameWorldDims.y / 4)));
 
     updateAffine();
   }
@@ -190,7 +189,7 @@ public class Viewport extends UIElement {
 
   protected void translate(Vec2d translation) {
     Vec2d res = this.translation.plus(translation);
-    this.translation = this.translation.plus(translation);
+    this.translation = this.translation.plus(translation.pdiv(new Vec2d(screenToGameRatio, screenToGameRatio)));
     converter.gameTopLeft = this.translation;
   }
 

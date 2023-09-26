@@ -6,7 +6,6 @@ import engine.components.TransformComponent;
 import engine.support.Vec2d;
 import javafx.scene.input.MouseEvent;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,8 +52,6 @@ public class GameObject {
      Vec2d clickPoint = sc.screenToGameSpace(new Vec2d(e.getX(), e.getY()));
      double x = clickPoint.x;
      double y = clickPoint.y;
-
-     System.out.println("x = "+x+", y = "+y);
 
      return (x >= leftBound && x < rightBound) &&
          (y >= upperBound && y < lowerBound);

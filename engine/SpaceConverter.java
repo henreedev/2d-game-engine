@@ -38,9 +38,6 @@ public class SpaceConverter {
     // Add upper left in game space
     x += gameTopLeft.x;
     y += gameTopLeft.y;
-    System.out.println("scale = "+scale);
-    System.out.println("topleft = "+gameTopLeft.x+", "+gameTopLeft.y);
-    System.out.println(new Vec2d(x,y));
     return new Vec2d(x,y);
   }
 

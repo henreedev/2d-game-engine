@@ -55,7 +55,6 @@ public class GameObject {
      double y = clickPoint.y;
 
      System.out.println("x = "+x+", y = "+y);
-     // TODO convert x and y to game space!
 
      return (x >= leftBound && x < rightBound) &&
          (y >= upperBound && y < lowerBound);

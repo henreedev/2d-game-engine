@@ -2,6 +2,8 @@ package engine;
 
 import engine.components.ComponentTag;
 import engine.support.Vec2d;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -22,23 +24,15 @@ public class GameWorld {
   protected GameSystem inputSystem;
   protected Vec2d gameDimensions;
   public SpaceConverter converter;
+  private List<GameObject> creationQueue;
 
   public GameWorld(SpaceConverter converter) {
     this.converter = converter;
+    this.creationQueue = new ArrayList<>();
   }
 
   public void addGameObject(GameObject gObj) {
-    Set<ComponentTag> componentTags = gObj.getComponentTags();
-    if (componentTags.contains(ComponentTag.GRAPHICS)) {
-      this.graphicsSystem.addGameObject(gObj);
-    }
-    if (componentTags.contains(ComponentTag.TICK)) {
-      this.tickSystem.addGameObject(gObj);
-    }
-    if (componentTags.contains(ComponentTag.INPUT)) {
-      this.inputSystem.addGameObject(gObj);
-    }
-    gObj.parent = this;
+    creationQueue.add(gObj);
   }
 
   protected void onDraw(GraphicsContext g) {
@@ -47,7 +41,26 @@ public class GameWorld {
     }
   }
 
+  private void flushCreationQueue() {
+    for (GameObject gObj : creationQueue) {
+      // CREATE GAMEOBJ
+      Set<ComponentTag> componentTags = gObj.getComponentTags();
+      if (componentTags.contains(ComponentTag.GRAPHICS)) {
+        this.graphicsSystem.addGameObject(gObj);
+      }
+      if (componentTags.contains(ComponentTag.TICK)) {
+        this.tickSystem.addGameObject(gObj);
+      }
+      if (componentTags.contains(ComponentTag.INPUT)) {
+        this.inputSystem.addGameObject(gObj);
+      }
+      gObj.parent = this;
+    }
+    creationQueue.clear();
+  }
+
   protected void onTick(double deltaTime) {
+    flushCreationQueue();
     if (tickSystem != null) {
       tickSystem.onTick(deltaTime);
     }

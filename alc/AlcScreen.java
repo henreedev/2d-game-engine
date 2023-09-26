@@ -11,8 +11,7 @@ public class AlcScreen extends Screen {
   public AlcScreen() {
     super();
     SpaceConverter converter = new SpaceConverter();
-    Viewport viewport = new Viewport(converter);
-    viewport.addGameWorld(new AlcWorld(converter));
+    Viewport viewport = new Viewport(converter, new AlcWorld(converter));
     this.uiElements.add(viewport); // to receive calls like other UIElements
   }
 

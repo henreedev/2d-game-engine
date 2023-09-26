@@ -24,9 +24,10 @@ public class AlcBackground extends GameObject {
         TransformComponent tc = getParentTransform();
         Vec2d pos = tc.getPosition();
         Vec2d size = tc.getSize();
-        g.setLineWidth(2);
-        g.setFill(Color.rgb(50, 50, 50));
+        g.setFill(Color.rgb(150, 150, 150));
         g.fillRect(pos.x, pos.y, size.x, size.y);
+        g.setLineWidth(2);
+        g.strokeRect(pos.x, pos.y, size.x, size.y);
       }
     };
     this.addComponent(new GraphicsComponent(this, drawBehavior, DrawLayer.BACKGROUND));

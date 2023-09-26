@@ -19,6 +19,7 @@ public class AlcUnit extends GameObject {
   private DrawBehavior drawBehavior;
   private InputBehavior inputBehavior;
   private boolean isDragged;
+  private boolean isClone;
 
   public AlcUnit() {
     super();
@@ -65,10 +66,18 @@ public class AlcUnit extends GameObject {
 
       }
       // UNUSED METHODS ^^^
+
+      private void spawnClone() {
+        parent.addGameObject(new AlcUnit());
+      }
       @Override
       public void onMousePressed(MouseEvent e) {
         if (isWithinTransform(e)) {
+          if (!isClone) {
+            spawnClone();
+          }
           isDragged = true;
+          isClone = true;
           // TODO store offset from top left (so that dragging occurs from the initially clicked point)
         }
         System.out.println("Pressing" +isDragged);
@@ -94,4 +103,5 @@ public class AlcUnit extends GameObject {
     this.addComponent(new GraphicsComponent(this, drawBehavior, DrawLayer.BOTTOM));
     this.addComponent(new InputComponent(this, inputBehavior));
   }
+
 }

@@ -9,23 +9,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class GameObject {
-   private final Map<ComponentTag, Component> componentMap;
-   protected GameWorld parentWorld;
+public class GameObject<T extends Enum<T>> {
+  private final Map<ComponentTag, Component> componentMap;
+  protected GameWorld parentWorld;
+  private T objectType;
+  public boolean isActive = true;
 
-   public GameObject() {
-     this.componentMap = new HashMap<>();
-     addComponent(new TransformComponent(this));
-   }
+  public GameObject() {
+    this.componentMap = new HashMap<>();
+    addComponent(new TransformComponent(this));
+  }
 
-   public GameObject addComponent(Component c) {
+   public GameObject<T> addComponent(Component c) {
      this.componentMap.put(c.getTag(), c);
      return this;
    }
 
-   public GameObject removeComponent(Component c) {
+   public GameObject<T> removeComponent(Component c) {
      this.componentMap.remove(c.getTag());
      return this;
+   }
+
+   public void setActivity(boolean isActive) {
+    this.isActive = isActive;
    }
 
    public Component getComponent(ComponentTag tag) {
@@ -56,5 +62,13 @@ public class GameObject {
      return (x >= leftBound && x < rightBound) &&
          (y >= upperBound && y < lowerBound);
    }
+
+  public T getObjectType() {
+    return objectType;
+  }
+
+  public void setObjectType(T objectType) {
+    this.objectType = objectType;
+  }
 
 }

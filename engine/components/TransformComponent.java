@@ -8,7 +8,7 @@ public class TransformComponent extends Component {
   private Vec2d position;
   private Vec2d size;
 
-  public TransformComponent(GameObject parent) {
+  public TransformComponent(GameObject<?> parent) {
     super(parent);
     this.position = new Vec2d(0, 0);
     this.size = new Vec2d(1, 1);

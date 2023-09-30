@@ -1,8 +1,6 @@
 package engine.components;
 
 import engine.GameObject;
-import engine.components.behaviors.DrawBehavior;
-import engine.components.behaviors.DrawLayer;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -12,7 +10,7 @@ public class GraphicsComponent extends Component {
 
   private final DrawLayer drawLayer;
 
-  public GraphicsComponent(GameObject parent, DrawLayer drawLayer) {
+  public GraphicsComponent(GameObject<?> parent, DrawLayer drawLayer) {
     super(parent);
     this.drawLayer = drawLayer;
   }

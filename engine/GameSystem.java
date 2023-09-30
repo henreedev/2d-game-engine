@@ -9,17 +9,17 @@ import javafx.scene.input.ScrollEvent;
 
 public abstract class GameSystem {
 
-  protected List<GameObject> gameObjects;
+  protected List<GameObject<?>> gameObjects;
 
   public GameSystem() {
     this.gameObjects = new ArrayList<>();
   }
 
-  public void addGameObject(GameObject gObj) {
+  public void addGameObject(GameObject<?> gObj) {
     gameObjects.add(gObj);
   }
 
-  public void removeGameObject(GameObject gObj) {
+  public void removeGameObject(GameObject<?> gObj) {
     gameObjects.remove(gObj);
   }
 

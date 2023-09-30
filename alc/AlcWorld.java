@@ -1,14 +1,12 @@
 package alc;
 
 import alc.assets.AlcBackground;
+import alc.assets.AlcType;
 import alc.assets.AlcUnit;
 import engine.GameWorld;
 import engine.SpaceConverter;
 import engine.resource.SpriteResource;
 import engine.support.Vec2d;
-import engine.systems.GraphicsSystem;
-import engine.systems.InputSystem;
-import engine.systems.TickSystem;
 
 public class AlcWorld extends GameWorld {
 
@@ -16,16 +14,28 @@ public class AlcWorld extends GameWorld {
 
   public AlcWorld(SpaceConverter converter) {
     super(converter);
-    this.graphicsSystem = new GraphicsSystem();
-    this.tickSystem = new TickSystem();
-    this.inputSystem = new InputSystem();
     this.gameDimensions = new Vec2d(160, 90);
     setupWorld();
   }
 
   private void setupWorld() {
     this.addGameObject(new AlcBackground());
-    this.addGameObject(new AlcUnit());
+    this.addGameObject(new AlcUnit(AlcType.LIGHT_BLUE_MUSHROOM,
+                                   new Vec2d(140, 15),
+                                   new Vec2d(10, 10)));
+    this.addGameObject(new AlcUnit(AlcType.DARK_BLUE_MUSHROOM,
+                                   new Vec2d(140, 30),
+                                   new Vec2d(10, 10)));
+    this.addGameObject(new AlcUnit(AlcType.PURPLE_FLOWER,
+                                   new Vec2d(140, 45),
+                                   new Vec2d(10, 10)));
+    this.addGameObject(new AlcUnit(AlcType.PURPLE_PLANT,
+                                   new Vec2d(140, 60),
+                                   new Vec2d(10, 10)));
+    this.addGameObject(new AlcUnit(AlcType.TRASH,
+        new Vec2d(20, 35),
+        new Vec2d(20, 20)));
+
   }
 
   @Override

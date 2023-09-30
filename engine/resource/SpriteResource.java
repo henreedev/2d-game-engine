@@ -28,6 +28,5 @@ public class SpriteResource extends Resource {
     double y = (spriteHeight + padding) * indexCoords.y + padding;
     g.drawImage(spriteSheet, x, y, spriteWidth, spriteHeight,
                 pos.x, pos.y, size.x, size.y);
-//    g.drawImage(spriteSheet, x, y);
   }
 }

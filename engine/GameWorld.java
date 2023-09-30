@@ -3,6 +3,10 @@ package engine;
 import engine.components.ComponentTag;
 import engine.resource.SpriteResource;
 import engine.support.Vec2d;
+import engine.systems.CollisionSystem;
+import engine.systems.GraphicsSystem;
+import engine.systems.InputSystem;
+import engine.systems.TickSystem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,28 +27,39 @@ public class GameWorld {
   protected GameSystem graphicsSystem;
   protected GameSystem tickSystem;
   protected GameSystem inputSystem;
+  protected GameSystem collisionSystem;
   protected Vec2d gameDimensions;
   public SpaceConverter converter;
-  private List<GameObject> creationQueue;
+  private final List<GameObject<?>> creationQueue;
+  private final List<GameObject<?>> deletionQueue;
   public SpriteResource spriteSheet;
 
   public GameWorld(SpaceConverter converter) {
     this.converter = converter;
+
     this.creationQueue = new ArrayList<>();
+    this.deletionQueue = new ArrayList<>();
+
+    this.graphicsSystem = new GraphicsSystem();
+    this.tickSystem = new TickSystem();
+    this.inputSystem = new InputSystem();
+    this.collisionSystem = new CollisionSystem();
   }
 
-  public void addGameObject(GameObject gObj) {
+  public void addGameObject(GameObject<?> gObj) {
     creationQueue.add(gObj);
   }
 
+  public void removeGameObject(GameObject<?> gObj) {
+    deletionQueue.add(gObj);
+  }
+
   protected void onDraw(GraphicsContext g) {
-    if (graphicsSystem != null) {
-      graphicsSystem.onDraw(g);
-    }
+    graphicsSystem.onDraw(g);
   }
 
   private void flushCreationQueue() {
-    for (GameObject gObj : creationQueue) {
+    for (GameObject<?> gObj : creationQueue) {
       // CREATE GAMEOBJ
       Set<ComponentTag> componentTags = gObj.getComponentTags();
       if (componentTags.contains(ComponentTag.GRAPHICS)) {
@@ -56,16 +71,39 @@ public class GameWorld {
       if (componentTags.contains(ComponentTag.INPUT)) {
         this.inputSystem.addGameObject(gObj);
       }
+      if (componentTags.contains(ComponentTag.COLLISION)) {
+        this.collisionSystem.addGameObject(gObj);
+      }
       gObj.parentWorld = this;
     }
     creationQueue.clear();
   }
 
+  private void flushDeletionQueue() {
+    for (GameObject<?> gObj : deletionQueue) {
+      //  GAMEOBJ
+      Set<ComponentTag> componentTags = gObj.getComponentTags();
+      if (componentTags.contains(ComponentTag.GRAPHICS)) {
+        this.graphicsSystem.removeGameObject(gObj);
+      }
+      if (componentTags.contains(ComponentTag.TICK)) {
+        this.tickSystem.removeGameObject(gObj);
+      }
+      if (componentTags.contains(ComponentTag.INPUT)) {
+        this.inputSystem.removeGameObject(gObj);
+      }
+      if (componentTags.contains(ComponentTag.COLLISION)) {
+        this.collisionSystem.removeGameObject(gObj);
+      }
+    }
+    deletionQueue.clear();
+  }
+
   protected void onTick(double deltaTime) {
     flushCreationQueue();
-    if (tickSystem != null) {
-      tickSystem.onTick(deltaTime);
-    }
+    flushDeletionQueue();
+    tickSystem.onTick(deltaTime);
+    collisionSystem.onTick(deltaTime);
   }
 
   /**
@@ -73,9 +111,7 @@ public class GameWorld {
    * @param e		an FX {@link KeyEvent} representing the input event.
    */
   protected void onKeyTyped(KeyEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onKeyTyped(e);
-    }
+    inputSystem.onKeyTyped(e);
   }
 
   /**
@@ -83,9 +119,7 @@ public class GameWorld {
    * @param e		an FX {@link KeyEvent} representing the input event.
    */
   protected void onKeyPressed(KeyEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onKeyPressed(e);
-    }
+    inputSystem.onKeyPressed(e);
   }
 
   /**
@@ -93,9 +127,7 @@ public class GameWorld {
    * @param e		an FX {@link KeyEvent} representing the input event.
    */
   protected void onKeyReleased(KeyEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onKeyReleased(e);
-    }
+    inputSystem.onKeyReleased(e);
   }
 
   /**
@@ -103,9 +135,7 @@ public class GameWorld {
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
   protected void onMouseClicked(MouseEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onMouseClicked(e);
-    }
+    inputSystem.onMouseClicked(e);
   }
 
   /**
@@ -113,9 +143,7 @@ public class GameWorld {
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
   protected void onMousePressed(MouseEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onMousePressed(e);
-    }
+    inputSystem.onMousePressed(e);
   }
 
   /**
@@ -123,9 +151,7 @@ public class GameWorld {
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
   protected void onMouseReleased(MouseEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onMouseReleased(e);
-    }
+    inputSystem.onMouseReleased(e);
   }
 
   /**
@@ -133,9 +159,7 @@ public class GameWorld {
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
   protected void onMouseDragged(MouseEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onMouseDragged(e);
-    }
+    inputSystem.onMouseDragged(e);
   }
 
   /**
@@ -143,9 +167,7 @@ public class GameWorld {
    * @param e		an FX {@link MouseEvent} representing the input event.
    */
   protected void onMouseMoved(MouseEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onMouseMoved(e);
-    }
+    inputSystem.onMouseMoved(e);
   }
 
   /**
@@ -153,9 +175,7 @@ public class GameWorld {
    * @param e		an FX {@link ScrollEvent} representing the input event.
    */
   protected void onMouseWheelMoved(ScrollEvent e) {
-    if (inputSystem != null) {
-      inputSystem.onMouseWheelMoved(e);
-    }
+    inputSystem.onMouseWheelMoved(e);
   }
 
   /**

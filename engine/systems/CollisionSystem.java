@@ -18,8 +18,8 @@ public class CollisionSystem extends GameSystem {
     int size = this.gameObjects.size();
     for (int i = 0; i < size - 1; i++) {
         for (int j = i+1; j < size; j++) {
-          GameObject go1 = this.gameObjects.get(i);
-          GameObject go2 = this.gameObjects.get(j);
+          GameObject<?> go1 = this.gameObjects.get(i);
+          GameObject<?> go2 = this.gameObjects.get(j);
           CollisionComponent cc1 = (CollisionComponent) go1.getComponent(ComponentTag.COLLISION);
           CollisionComponent cc2 = (CollisionComponent) go2.getComponent(ComponentTag.COLLISION);
           Shape s1 = cc1.getShape();

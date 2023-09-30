@@ -13,7 +13,7 @@ public class TickSystem extends GameSystem {
 
   @Override
   public void onTick(double deltaTime) {
-    for (GameObject gObj : this.gameObjects) {
+    for (GameObject<?> gObj : this.gameObjects) {
       TickComponent component = (TickComponent) gObj.getComponent(ComponentTag.TICK);
       component.onTick(deltaTime);
     }

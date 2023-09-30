@@ -1,4 +1,4 @@
-package engine.components.behaviors;
+package engine.components;
 
 public enum DrawLayer {
   BACKGROUND, BOTTOM, MIDDLE, TOP

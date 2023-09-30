@@ -1,14 +1,13 @@
 package engine.components;
 
 import engine.GameObject;
-import engine.components.behaviors.InputBehavior;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
 public class InputComponent extends Component {
 
-  public InputComponent(GameObject parent) {
+  public InputComponent(GameObject<?> parent) {
     super(parent);
   }
 

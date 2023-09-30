@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class GameObject {
    private final Map<ComponentTag, Component> componentMap;
-   protected GameWorld parent;
+   protected GameWorld parentWorld;
 
    public GameObject() {
      this.componentMap = new HashMap<>();
@@ -48,7 +48,7 @@ public class GameObject {
      double upperBound = pos.y;
      double rightBound = pos.x + size.x;
      double lowerBound = pos.y + size.y;
-     SpaceConverter sc = this.parent.converter;
+     SpaceConverter sc = this.parentWorld.converter;
      Vec2d clickPoint = sc.screenToGameSpace(new Vec2d(e.getX(), e.getY()));
      double x = clickPoint.x;
      double y = clickPoint.y;

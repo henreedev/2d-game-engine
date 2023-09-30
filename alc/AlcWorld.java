@@ -2,19 +2,13 @@ package alc;
 
 import alc.assets.AlcBackground;
 import alc.assets.AlcUnit;
-import engine.GameObject;
 import engine.GameWorld;
 import engine.SpaceConverter;
-import engine.components.GraphicsComponent;
-import engine.components.TransformComponent;
-import engine.components.behaviors.DrawBehavior;
-import engine.components.behaviors.DrawLayer;
+import engine.resource.SpriteResource;
 import engine.support.Vec2d;
 import engine.systems.GraphicsSystem;
 import engine.systems.InputSystem;
 import engine.systems.TickSystem;
-import javafx.scene.paint.Color;
-import javafx.scene.canvas.GraphicsContext;
 
 public class AlcWorld extends GameWorld {
 
@@ -32,5 +26,12 @@ public class AlcWorld extends GameWorld {
   private void setupWorld() {
     this.addGameObject(new AlcBackground());
     this.addGameObject(new AlcUnit());
+  }
+
+  @Override
+  protected void onStartup() {
+    this.spriteSheet = new SpriteResource(
+        "alc/assets/spritesheet.png", 32, 32, 0
+    );
   }
 }

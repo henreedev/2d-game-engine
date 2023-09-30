@@ -1,6 +1,7 @@
 package engine;
 
 import engine.components.ComponentTag;
+import engine.resource.SpriteResource;
 import engine.support.Vec2d;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class GameWorld {
   protected Vec2d gameDimensions;
   public SpaceConverter converter;
   private List<GameObject> creationQueue;
+  public SpriteResource spriteSheet;
 
   public GameWorld(SpaceConverter converter) {
     this.converter = converter;
@@ -54,7 +56,7 @@ public class GameWorld {
       if (componentTags.contains(ComponentTag.INPUT)) {
         this.inputSystem.addGameObject(gObj);
       }
-      gObj.parent = this;
+      gObj.parentWorld = this;
     }
     creationQueue.clear();
   }

@@ -5,9 +5,7 @@ import engine.SpaceConverter;
 import engine.components.GraphicsComponent;
 import engine.components.InputComponent;
 import engine.components.TransformComponent;
-import engine.components.behaviors.DrawBehavior;
 import engine.components.behaviors.DrawLayer;
-import engine.components.behaviors.InputBehavior;
 import engine.support.Vec2d;
 import java.util.Random;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,8 +15,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 
 public class AlcUnit extends GameObject {
-  private DrawBehavior drawBehavior;
-  private InputBehavior inputBehavior;
   private boolean isDragged;
   private boolean isClone;
   protected Color color = Color.rgb(75, 50, 255);
@@ -28,87 +24,66 @@ public class AlcUnit extends GameObject {
     // TRANSFORM INITIALIZATION
     this.getTransform().setPosition(new Vec2d(76, 41));
     this.getTransform().setSize(new Vec2d(8, 8));
-    // DRAW BEHAVIOR INITIALIZATION
-    this.drawBehavior = new DrawBehavior(this) {
+    // ADD COMPONENTS
+    this.addComponent(new GraphicsComponent(this,  DrawLayer.BOTTOM) {
       @Override
-      public void onDraw(GraphicsContext g) {
-        TransformComponent tc = getParentTransform();
-        Vec2d pos = tc.getPosition();
-        Vec2d size = tc.getSize();
+        public void onDraw(GraphicsContext g) {
+          TransformComponent tc = getTransform();
+          Vec2d pos = tc.getPosition();
+          Vec2d size = tc.getSize();
 //        g.setLineWidth(1);
-        g.setStroke(color);
-        g.strokeRect(pos.x, pos.y, size.x, size.y);
-      }
-    };
-    // INPUT BEHAVIOR INITIALIZATION
-    this.inputBehavior = new InputBehavior(this) {
-      // UNUSED METHODS vvv
-      @Override
-      public void onKeyTyped(KeyEvent e) {
-
-      }
-      @Override
-      public void onKeyPressed(KeyEvent e) {
-
-      }
-      @Override
-      public void onKeyReleased(KeyEvent e) {
-
-      }
-      @Override
-      public void onMouseMoved(MouseEvent e) {
-
-      }
-      @Override
-      public void onMouseWheelMoved(ScrollEvent e) {
-
-      }
-      @Override
-      public void onMouseClicked(MouseEvent e) {
-        if (isWithinTransform(e)) {
-          Random rand = new Random();
-          color = Color.rgb(
-              rand.nextInt(256),
-              rand.nextInt(256),
-              rand.nextInt(256)
-          );
-        }
-      }
-      // UNUSED METHODS ^^^
-
-      private void spawnClone() {
-        parent.addGameObject(new AlcUnit());
-      }
-      @Override
-      public void onMousePressed(MouseEvent e) {
-        if (isWithinTransform(e)) {
-          if (!isClone) {
-            spawnClone();
+//        g.setStroke(color);
+//        g.strokeRect(pos.x, pos.y, size.x, size.y);
+          // TODO generalize sprite index to allow extension
+          Vec2d pickaxeSpriteIndex = new Vec2d(0, 0);
+          if (parentWorld.spriteSheet != null) {
+            parentWorld.spriteSheet.drawSprite(g, pickaxeSpriteIndex, pos, size);
           }
-          isDragged = true;
-          isClone = true;
-          // TODO store offset from top left (so that dragging occurs from the initially clicked point)
-        }
-      }
+        }})
+        .addComponent(new InputComponent(this) {
+          @Override
+          public void onMouseClicked(MouseEvent e) {
+            if (isWithinTransform(e)) {
+              Random rand = new Random();
+              color = Color.rgb(
+                  rand.nextInt(256),
+                  rand.nextInt(256),
+                  rand.nextInt(256)
+              );
+            }
+          }
 
-      @Override
-      public void onMouseReleased(MouseEvent e) {
-        isDragged = false;
-      }
+          private void spawnClone() {
+            parentWorld.addGameObject(new AlcUnit());
+          }
 
-      @Override
-      public void onMouseDragged(MouseEvent e) {
-        if (isDragged) {
-          // TODO use offset form top left
-          SpaceConverter sc = parent.converter;
-          Vec2d clickPoint = sc.screenToGameSpace(new Vec2d(e.getX(), e.getY()));
-          getTransform().setPosition(clickPoint);
-        }
-      }
-    };
+          @Override
+          public void onMousePressed(MouseEvent e) {
+            if (isWithinTransform(e)) {
+              if (!isClone) {
+                spawnClone();
+              }
+              isDragged = true;
+              isClone = true;
+              // TODO store offset from top left (so that dragging occurs from the initially clicked point)
+            }
+          }
 
-    this.addComponent(new GraphicsComponent(this, drawBehavior, DrawLayer.BOTTOM));
-    this.addComponent(new InputComponent(this, inputBehavior));
+          @Override
+          public void onMouseReleased(MouseEvent e) {
+            isDragged = false;
+          }
+
+          @Override
+          public void onMouseDragged(MouseEvent e) {
+            if (isDragged) {
+              // TODO use offset from top left
+              SpaceConverter sc = parentWorld.converter;
+              Vec2d clickPoint = sc.screenToGameSpace(new Vec2d(e.getX(), e.getY()));
+              getTransform().setPosition(clickPoint);
+            }
+          }
+        });
   }
 
 }

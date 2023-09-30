@@ -64,6 +64,8 @@ public class Viewport extends UIElement {
     super.onKeyTyped(e);
   }
 
+  //////////////////////////// CUSTOM FUNCTIONS //////////////////////////////////
+
   protected void startPanning(KeyPressed keyPressed) {
     this.currentPanDirection = keyPressed;
   }
@@ -175,7 +177,6 @@ public class Viewport extends UIElement {
     updateAffine();
   }
 
-
   @Override
   protected void onMouseWheelMoved(ScrollEvent e) {
     onZoom(e.getDeltaY() > 0);
@@ -214,5 +215,17 @@ public class Viewport extends UIElement {
 
     updateScale();
     updateAffine();
+  }
+
+  @Override
+  protected void onStartup() {
+    gameWorld.onStartup();
+    super.onStartup();
+  }
+
+  @Override
+  protected void onShutdown() {
+    gameWorld.onShutdown();
+    super.onShutdown();
   }
 }

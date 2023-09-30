@@ -1,5 +1,5 @@
 package engine.components;
 
 public enum ComponentTag {
-  TRANSFORM, TICK, GRAPHICS, PHYSICS, COLLISION, INPUT, NONE
+  TRANSFORM, TICK, GRAPHICS, PHYSICS, COLLISION, INPUT, SPRITE, NONE
 }

@@ -18,10 +18,11 @@ public class AlcBackground extends GameObject {
     this.getTransform().setPosition(new Vec2d(0, 0));
     this.getTransform().setSize(new Vec2d(AlcWorld.alcGameDimensions));
     // DRAW BEHAVIOR INITIALIZATION
-    this.drawBehavior = new DrawBehavior(this) {
+
+    this.addComponent(new GraphicsComponent(this, DrawLayer.BACKGROUND) {
       @Override
       public void onDraw(GraphicsContext g) {
-        TransformComponent tc = getParentTransform();
+        TransformComponent tc = getTransform();
         Vec2d pos = tc.getPosition();
         Vec2d size = tc.getSize();
         g.setFill(Color.rgb(150, 150, 150));
@@ -29,7 +30,6 @@ public class AlcBackground extends GameObject {
         g.setLineWidth(2);
         g.strokeRect(pos.x, pos.y, size.x, size.y);
       }
-    };
-    this.addComponent(new GraphicsComponent(this, drawBehavior, DrawLayer.BACKGROUND));
+    });
   }
 }

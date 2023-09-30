@@ -10,22 +10,18 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class GraphicsComponent extends Component {
 
-  private DrawBehavior drawBehavior;
-  private DrawLayer drawLayer;
+  private final DrawLayer drawLayer;
 
-  public GraphicsComponent(GameObject parent, DrawBehavior drawBehavior, DrawLayer drawLayer) {
+  public GraphicsComponent(GameObject parent, DrawLayer drawLayer) {
     super(parent);
     this.drawLayer = drawLayer;
-    this.drawBehavior = drawBehavior;
   }
 
   public DrawLayer getDrawLayer() {
     return drawLayer;
   }
 
-  public void onDraw(GraphicsContext g) {
-    drawBehavior.onDraw(g);
-  }
+  public void onDraw(GraphicsContext g) {}
 
   @Override
   public ComponentTag getTag() { return ComponentTag.GRAPHICS; }
